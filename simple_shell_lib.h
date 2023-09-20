@@ -19,7 +19,7 @@
 char *read_input();
 char **parse_input(char *input);
 int file_exists_in_directory(const char *file, const char *directory);
-void run_shell();
+void run_shell(void);
 void execute_command(char **args, int nb);
 
 #endif /* SIMPLE_SHELL_LIB_H */
