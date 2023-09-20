@@ -13,10 +13,16 @@ void execute_command(char **args, int nb)
 {
 	pid_t pid;
 	int status;
+	int i;
 
 	pid = fork();
 	if (pid == 0)
 	{
+		for (i = 0; args[i] != NULL; i++)
+		{
+			handle_special(args[i]);
+		}
+
 		if (execvp(args[0], args) == -1)
 		{
 			fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
@@ -28,4 +34,44 @@ void execute_command(char **args, int nb)
 		perror("Error");
 	else
 		waitpid(pid, &status, 0);
+}
+
+/**
+ * handle_special - Escape special characters in a string.
+ * @str: The string to process.
+ *
+ * Description:
+ *   This function takes a string as input and escapes the following special
+ *   characters: ", ', `, \, *, &, #. It modifies the input string in place.
+ *
+ * Return: None (void)
+ */
+void handle_special(char *str)
+{
+	int len = strlen(str);
+	int i, j = 0;
+	char *escaped = malloc(2 * len + 1);
+
+	if (escaped == NULL)
+	{
+		fprintf(stderr, "Memory allocation error\n");
+		exit(EXIT_FAILURE);
+	}
+
+	for (i = 0; i < len; i++)
+	{
+		char c = str[i];
+
+		if (c == '"' || c == '\'' || c == '`' || c == '\\' || c == '*' || c == '&' || c == '#')
+		{
+			escaped[j++] = '\\';
+		}
+
+		escaped[j++] = c;
+	}
+
+	escaped[j] = '\0';
+
+	strcpy(str, escaped);
+	free(escaped);
 }
