@@ -187,6 +187,7 @@ void run_shell(char **env)
 			execute_command(args, nb, env);
 		}
 		free(input);
+		input = NULL;
 		free(args);
 		nb++;
 	}
