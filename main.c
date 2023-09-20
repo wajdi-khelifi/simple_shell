@@ -10,8 +10,6 @@
  */
 void run_shell(void)
 {
-	signal(SIGINT, handle_signal);
-
 	char *input;
 	char **args;
 	int nb = 1;

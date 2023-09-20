@@ -12,11 +12,15 @@
 void execute_command(char **args, int nb)
 {
 	pid_t pid;
-	int status;
+	int status, i;
 
 	pid = fork();
 	if (pid == 0)
 	{
+		for (i = 0; args[i] != NULL; i++)
+		{
+			special_char(args[i]);
+		}
 		if (execvp(args[0], args) == -1)
 		{
 			fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);

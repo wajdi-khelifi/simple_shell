@@ -21,7 +21,6 @@ char **parse_input(char *input);
 int file_exists_in_directory(const char *file, const char *directory);
 void run_shell(void);
 void execute_command(char **args, int nb);
-void ctrl_d_exit(void);
-void handle_signal(int signum);
+void special_char(char *arg);
 
 #endif /* SIMPLE_SHELL_LIB_H */
