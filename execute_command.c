@@ -27,7 +27,7 @@ void execute_command(char **args, int nb)
 		{
 			fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
 			perror("Error");
-			exit(EXIT_FAILURE);
+			exit(1);
 		}
 	}
 	else if (pid < 0)
