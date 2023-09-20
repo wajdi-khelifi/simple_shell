@@ -18,9 +18,10 @@
 
 char *read_input();
 char **parse_input(char *input);
-int file_exists_in_directory(const char *file, const char *directory);
 void run_shell(void);
-void execute_command(char **args, int nb);
 void handle_special(char *str);
+char *get_env(char *env_var, char **env);
+void add_path(char *a, char *exe, char *env_path);
+void execute_command(char **args, int nb, char **env);
 
 #endif /* SIMPLE_SHELL_LIB_H */

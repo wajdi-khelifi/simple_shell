@@ -4,17 +4,20 @@
  * execute_command - Execute a command in a new process.
  * @args: An array of strings containing the command and its arguments.
  * @nb: The line number where the command is executed.
+ * @env: The array of environment variables.
  *
  * This function creates a new process to execute the specified command with
  * the given arguments. If the command is not found in the PATH directories,
  * it prints an error message including the line number.
  */
-void execute_command(char **args, int nb)
+void execute_command(char **args, int nb, char **env)
 {
+	char *path_value;
 	pid_t pid;
 	int status;
 	int i;
 
+	path_value = get_env("PATH", env);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -23,17 +26,30 @@ void execute_command(char **args, int nb)
 			handle_special(args[i]);
 		}
 
-		if (execvp(args[0], args) == -1)
+		if (path_value != NULL)
 		{
-			fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
-			perror("Error");
-			exit(1);
+			char exe[MAX_INPUT_SIZE];
+
+			add_path(args[0], exe, path_value);
+
+			if (exe[0] == '\0')
+			{
+				fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
+				exit(1);
+			}
+
+			if (execvp(args[0], args) == -1)
+			{
+				fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
+				perror("Error");
+				exit(1);
+			}
 		}
+		else if (pid < 0)
+			perror("Error");
+		else
+			waitpid(pid, &status, 0);
 	}
-	else if (pid < 0)
-		perror("Error");
-	else
-		waitpid(pid, &status, 0);
 }
 
 /**
@@ -164,7 +180,7 @@ void run_shell(void)
 		args = parse_input(input);
 		if (args[0] != NULL)
 		{
-			execute_command(args, nb);
+			execute_command(args, nb, env);
 		}
 		free(input);
 		free(args);
