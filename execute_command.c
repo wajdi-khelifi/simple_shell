@@ -13,38 +13,18 @@ void execute_command(char **args, int nb)
 {
 	pid_t pid;
 	int status;
-	char *path_token;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		char *path = getenv("PATH");
-
-		if (path == NULL)
+		if (execvp(args[0], args) == -1)
 		{
-			fprintf(stderr, "PATH environment variable not found\n");
+			fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
+			perror("Error");
 			exit(EXIT_FAILURE);
 		}
-		path_token = strtok(path, ":");
-		while (path_token != NULL)
-		{
-			if (file_exists_in_directory(args[0], path_token))
-			{
-				char command[MAX_INPUT_SIZE];
-
-				snprintf(command, sizeof(command), "%s/%s", path_token, args[0]);
-				if (execv(command, args) == -1)
-				{
-					fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
-					perror("Error");
-				}
-				exit(EXIT_FAILURE);
-			}
-			path_token = strtok(NULL, ":");
-		}
-		fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
-		exit(EXIT_FAILURE);
-	} else if (pid < 0)
+	}
+	else if (pid < 0)
 		perror("Error");
 	else
 		waitpid(pid, &status, 0);
