@@ -9,14 +9,8 @@ char *read_input()
 {
 	char *input = NULL;
 	size_t bufsize = 0;
-	ssize_t bytesRead = getline(&input, &bufsize, stdin);
 
-	if (bytesRead == -1)
-	{
-		free(input);
-		return (NULL);
-	}
-
+	getline(&input, &bufsize, stdin);
 	return (input);
 }
 
