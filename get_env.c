@@ -1,23 +1,24 @@
 #include "simple_shell_lib.h"
 
 /**
- * get_env - Get the value of an environment variable.
- * @env_var: The name of the environment variable to retrieve.
- * @env: The array of environment variables.
- *
- * Return: The value of the specified environment variable,
- * or NULL if not found.
+ * _getenv - retrieves env variable that matches input string
+ * @input: input string
+ * @environ: local environmental variables
+ * Return: string of env variable
  */
-char *get_env(char *env_var, char **env)
+char *_getenv(char *input, char **environ)
 {
-	int i = 0;
-	char *key;
+	register int i = 0;
+	char *s, *c;
 
-	while (env[i])
+	while (environ[i])
 	{
-		key = strtok(env[i], "=");
-		if (strcmp(env_var, key) == 0)
-			return (strtok(NULL, "\n"));
+		s = strtok(environ[i], "=");
+		if (strcmp(s, input) == 0)
+		{
+			c = strtok(NULL, "=");
+			return (c);
+		}
 		i++;
 	}
 	return (NULL);
