@@ -19,7 +19,7 @@
 char *read_input();
 char **parse_input(char *input);
 void handle_special(char *str);
-char *get_env(char *env_var, char **env);
+char *_getenv(char *input, char **environ);
 void add_path(char *a, char *exe, char *env_path);
 void execute_command(char **args, int nb, char **env);
 void run_shell(char **env);
