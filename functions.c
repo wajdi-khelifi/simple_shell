@@ -12,12 +12,11 @@
  */
 void execute_command(char **args, int nb, char **env)
 {
-	char *path_value;
 	pid_t pid;
 	int status;
 	int i;
+	char *path_var, *token;
 
-	path_value = get_env("PATH", env);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -25,30 +24,33 @@ void execute_command(char **args, int nb, char **env)
 		{
 			handle_special(args[i]);
 		}
-
-		if (path_value != NULL)
+		path_var = get_env("PATH", env);
+		if (path_var != NULL)
 		{
 			char exe[MAX_INPUT_SIZE];
 
-			add_path(args[0], exe, path_value);
-
-			if (exe[0] == '\0')
+			token = strtok(path_var, ":");
+			while (token != NULL)
 			{
-				fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
-				exit(1);
-			}
-
-			if (execvp(args[0], args) == -1)
-			{
-				fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
-				perror("Error");
-				exit(1);
+				snprintf(exe, sizeof(exe), "%s/%s", token, args[0]);
+				if (access(exe, X_OK) == 0)
+				{
+					execv(exe, args);
+					fprintf(stderr, "hsh: %d: %s: execution failed\n", nb, args[0]);
+					perror("Error");
+					exit(EXIT_FAILURE);
+				}
+				token = strtok(NULL, ":");
 			}
 		}
-		else if (pid < 0)
-			perror("Error");
-		else
-			waitpid(pid, &status, 0);
+		fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
+		exit(EXIT_FAILURE);
+	} else if (pid < 0)
+	{
+		perror("Error");
+	} else
+	{
+		waitpid(pid, &status, 0);
 	}
 }
 
@@ -157,7 +159,7 @@ char **parse_input(char *input)
  * executes the commands. It also keeps track of the line number for error
  * reporting.
  */
-void run_shell(void)
+void run_shell(char **env)
 {
 	char *input;
 	char **args;
