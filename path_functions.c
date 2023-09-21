@@ -80,7 +80,7 @@ char *test_paths(char **path, const char *command)
 
 	while (path[i])
 	{
-		output = append_path(path[i], command);
+		output = append_path(path[i], (char *) command);
 		if (access(output, F_OK | X_OK) == 0)
 			return (output);
 		free(output);

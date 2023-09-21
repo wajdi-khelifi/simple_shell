@@ -1,4 +1,8 @@
 #include "simple_shell.h"
+
+struct info info;
+struct flags flags;
+
 /**
  * main - Entry point for the simple shell program
  * @argc: Number of command-line arguments
@@ -12,7 +16,7 @@
  */
 int main(int argc, char **argv, char *envp[])
 {
-	char *line = NULL, **pathcommand = NULL, *path = NULL;
+	char *line = NULL, *pathcommand = NULL, *path = NULL;
 	size_t bufsize = 0;
 	ssize_t linesize = 0;
 	char **command = NULL, **paths = NULL;
