@@ -88,22 +88,35 @@ void prompt_user(struct flags flags)
 void execute(char *cp, char **cmd)
 {
 	pid_t child_pid;
-	int status;
+	int status, exit_status;
 	char **env = environ;
 
 	child_pid = fork();
 	if (child_pid < 0)
-		perror(cp);
+	{
+		perror("fork");
+		exit(1);
+	}
 	if (child_pid == 0)
 	{
 		execve(cp, cmd, env);
 		perror(cp);
 		free(cp);
 		free_buffers(cmd);
-		exit(98);
+		exit(1);
 	}
 	else
+	{
 		wait(&status);
+		if (WIFEXITED(status))
+		{
+			exit_status = WEXITSTATUS(status);
+			if (exit_status != 0)
+			{
+				fprintf(stderr, "Command failed with status %d\n", exit_status);
+			}
+		}
+	}
 }
 
 /**
