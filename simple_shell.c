@@ -96,8 +96,6 @@ void execute(char *cp, char **cmd)
 	{
 		execve(cp, cmd, env);
 		perror(cp);
-		free(cp);
-		free_buffers(cmd);
 		exit(98);
 	}
 	else
@@ -149,7 +147,7 @@ char **tokenize(char *line)
 		token = strtok(NULL, delim);
 		index++;
 	}
-	tokens[index] = '\0';
+	tokens[index] = NULL;
 	free(buf);
 	return (tokens);
 }

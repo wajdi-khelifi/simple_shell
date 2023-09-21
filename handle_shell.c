@@ -10,7 +10,7 @@
  */
 void handle_signal(int m)
 {
-	(void)m; /* Unused parameter */
+	(void)m;
 	write(STDERR_FILENO, "\n", 1);
 	prompt_user(flags);
 }
