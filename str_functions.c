@@ -85,14 +85,21 @@ int _strncmp(const char *s1, const char *s2, int n)
  */
 char *_strdup(const char *s)
 {
-	int len = _strlen(s);
-	char *ptr = malloc(len + 1);
+	char *ptr;
+	int i, len;
 
-	if (!ptr)
-	{
+	if (s == NULL)
 		return (NULL);
-	}
-	strcpy(ptr, s);
+
+	len = _strlen(s);
+
+	ptr = malloc(sizeof(char) * (len + 1));
+	if (!ptr)
+		return (NULL);
+	for (i = 0; *s != '\0'; s++, i++)
+		ptr[i] = s[0];
+
+	ptr[i++] = '\0';
 	return (ptr);
 }
 
