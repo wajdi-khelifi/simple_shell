@@ -24,7 +24,7 @@ void execute_command(char **args, int nb, char **env)
 		{
 			handle_special(args[i]);
 		}
-		path_var = _getenv("PATH", env);
+		path_var = get_env("PATH", env);
 		if (path_var != NULL)
 		{
 			char exe[MAX_INPUT_SIZE];
