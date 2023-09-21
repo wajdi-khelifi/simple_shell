@@ -89,6 +89,6 @@ struct info
 struct flags
 {
 	bool interactive;
-};
+} flags;
 
 #endif /* SIMPLE_SHELL_H */
