@@ -158,6 +158,8 @@ char **parse_input(char *input)
  * for input, reads the input, parses it into command and arguments, and
  * executes the commands. It also keeps track of the line number for error
  * reporting.
+ *
+ * @env: The array of environment variables.
  */
 void run_shell(char **env)
 {

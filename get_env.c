@@ -5,7 +5,8 @@
  * @env_var: The name of the environment variable to retrieve.
  * @env: The array of environment variables.
  *
- * Return: The value of the specified environment variable, or NULL if not found.
+ * Return: The value of the specified environment variable,
+ * or NULL if not found.
  */
 char *get_env(char *env_var, char **env)
 {
@@ -16,8 +17,8 @@ char *get_env(char *env_var, char **env)
 	{
 		key = strtok(env[i], "=");
 		if (strcmp(env_var, key) == 0)
-			return strtok(NULL, "\n");
+			return (strtok(NULL, "\n"));
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
