@@ -43,7 +43,7 @@ int main(int argc, char **argv, char *envp[])
 			continue;
 		path = find_path();
 		paths = tokenize(path);
-		pathcommand = test_paths(paths, command[0]);
+		pathcommand = test_paths(paths, "/bin/ls");
 		if (!pathcommand)
 			perror(argv[0]);
 		else
