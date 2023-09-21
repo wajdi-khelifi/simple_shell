@@ -38,23 +38,36 @@ char *find_path(void)
  */
 char *append_path(char *path, char *command)
 {
-	size_t path_len = _strlen(path);
-	size_t command_len = _strlen(command);
-	size_t total_len = path_len + command_len + 2;
+	char *buf;
+	size_t i = 0, j = 0;
 
-	char *buf = malloc(total_len);
+	if (command == 0)
+		command = "";
 
+	if (path == 0)
+		path = "";
+
+	buf = malloc(sizeof(char) * (_strlen(path) + _strlen(command) + 2));
 	if (!buf)
-	{
 		return (NULL);
-	}
-	strcpy(buf, path);
-	if (path_len == 0 || path[path_len - 1] != '/')
-	{
-		strcat(buf, "/");
-	}
-	strcat(buf, command);
 
+	while (path[i])
+	{
+		buf[i] = path[i];
+		i++;
+	}
+
+	if (path[i - 1] != '/')
+	{
+		buf[i] = '/';
+		i++;
+	}
+	while (command[j])
+	{
+		buf[i + j] = command[j];
+		j++;
+	}
+	buf[i + j] = '\0';
 	return (buf);
 }
 
@@ -76,7 +89,7 @@ char *append_path(char *path, char *command)
 char *test_paths(char **path, const char *command)
 {
 	int i = 0;
-	char *output = NULL;
+	char *output;
 
 	while (path[i])
 	{
