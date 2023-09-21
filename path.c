@@ -2,36 +2,29 @@
 
 /**
  * add_path - Add the path of the executable to the command.
- * @a: The command or executable.
+ * @x: The command or executable.
  * @exe: The buffer to store the full path.
  * @env: The array of environment variables.
  *
  * This function constructs the full path to the specified executable by
  * searching for it in the directories listed in the PATH environment variable.
  */
-void add_path(char *a, char *exe, char **env)
+void add_path(char *x, char *exe, char **env)
 {
-	char *path_var = get_env("PATH", env);
+	char *path = get_env("PATH", env);
 	struct stat st;
 	char *token;
 
-	if (path_var == NULL)
-	{
-		perror("PATH environment variable not found");
-		exit(1);
-	}
+	token = strtok(path, ":");
 
-	token = strtok(path_var, ":");
 	while (token != NULL)
 	{
 		strcpy(exe, token);
 		strcat(exe, "/");
-		strcat(exe, a);
+		strcat(exe, x);
 
 		if (stat(exe, &st) == 0)
-		{
 			return;
-		}
 
 		token = strtok(NULL, ":");
 	}

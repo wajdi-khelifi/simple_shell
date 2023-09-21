@@ -107,7 +107,6 @@ char *read_input()
 
 	getline(&input, &bufsize, stdin);
 	return (input);
-	input = NULL;
 }
 
 /**
