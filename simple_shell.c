@@ -25,6 +25,9 @@ int main(int argc, char **argv, char *envp[])
 	signal(SIGINT, handle_signal);
 	while (1)
 	{
+		printf("$ ");
+		fflush(stdout);
+
 		free_buffers(command);
 		free_buffers(paths);
 		free(pathcommand);
