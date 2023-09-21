@@ -49,6 +49,7 @@ int main(int argc, char **argv, char **env)
 		free(input);
 		input = NULL;
 		free(args);
+		nb++;
 	}
 
 	return (0);

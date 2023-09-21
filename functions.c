@@ -35,7 +35,7 @@ void execute_command(char **args, int nb, char **env)
 				snprintf(exe, sizeof(exe), "%s/%s", token, args[0]);
 				if (access(exe, X_OK) == 0)
 				{
-					execv(exe, args);
+					execve(exe, args, env);
 					fprintf(stderr, "hsh: %d: %s: execution failed\n", nb, args[0]);
 					perror("Error");
 					exit(1);
@@ -131,7 +131,7 @@ char **parse_input(char *input)
 	token = strtok(input, " \t\n");
 	while (token != NULL)
 	{
-		tokens[position] = token;
+		tokens[position] = strdup(token);
 		position++;
 
 		if (position >= bufsize)
