@@ -61,7 +61,7 @@ struct builtin
 {
 	char *env;
 	char *exit;
-};
+} builtin;
 
 /**
  * struct info - Stores shell-related information
@@ -76,7 +76,7 @@ struct info
 {
 	int final_exit;
 	int ln_count;
-};
+} info;
 
 /**
  * struct flags - Stores shell-related flags
