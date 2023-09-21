@@ -43,7 +43,7 @@ int main(int argc, char **argv, char *envp[])
 			continue;
 		path = find_path();
 		paths = tokenize(path);
-		pathcommand = test_paths(paths, "/bin/ls");
+		pathcommand = test_paths(paths, command[0]);
 		if (!pathcommand)
 			perror(argv[0]);
 		else
@@ -69,8 +69,7 @@ void prompt_user(struct flags flags)
 {
 	if (flags.interactive)
 	{
-		fprintf(stdout, "#cisfun$ ");
-		fflush(stdout);
+		write(STDERR_FILENO, "#cisfun$ ", 9);
 	}
 }
 
