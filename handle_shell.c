@@ -1,4 +1,5 @@
 #include "simple_shell.h"
+
 /**
  * handle_signal - Handles interrupt signals and prompts for input
  * @m: The signal number (unused)

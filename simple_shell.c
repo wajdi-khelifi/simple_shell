@@ -13,11 +13,12 @@
  */
 int main(int argc, char **argv, char *envp[])
 {
+	struct flags flags;
+	struct info info;
 	char *line = NULL, *pathcommand = NULL, *path = NULL;
 	size_t bufsize = 0;
 	ssize_t linesize = 0;
 	char **command = NULL, **paths = NULL;
-	struct flags flags;
 	(void)argc, (void)argv, (void)envp;
 	signal(SIGINT, handle_signal);
 
