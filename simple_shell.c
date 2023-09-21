@@ -39,10 +39,6 @@ int main(int argc, char **argv, char *envp[])
 		command = tokenize(line);
 		if (command == NULL || *command == NULL || **command == '\0')
 			continue;
-		if (_strcmp(*command, "exit") == 0)
-		{
-			exit_cmd(command, line);
-		}
 		if (checker(command, line))
 			continue;
 		path = find_path();
@@ -58,7 +54,6 @@ int main(int argc, char **argv, char *envp[])
 	free(line);
 	return (0);
 }
-
 /**
  * prompt_user - Prints a shell prompt for user input
  * @flags: The struct containing shell-related flags
@@ -91,37 +86,23 @@ void prompt_user(struct flags flags)
 void execute(char *cp, char **cmd)
 {
 	pid_t child_pid;
-	int status, exit_status;
+	int status;
 	char **env = environ;
 
 	child_pid = fork();
 	if (child_pid < 0)
-	{
-		perror("fork");
-		exit(1);
-	}
+		perror(cp);
 	if (child_pid == 0)
 	{
 		execve(cp, cmd, env);
 		perror(cp);
 		free(cp);
 		free_buffers(cmd);
-		exit(1);
+		exit(98);
 	}
 	else
-	{
 		wait(&status);
-		if (WIFEXITED(status))
-		{
-			exit_status = WEXITSTATUS(status);
-			if (exit_status != 0)
-			{
-				fprintf(stderr, "Command failed with status %d\n", exit_status);
-			}
-		}
-	}
 }
-
 /**
  * tokenize - Creates tokens from the given input line
  * @line: The input line to be tokenized
