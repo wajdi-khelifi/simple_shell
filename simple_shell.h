@@ -46,8 +46,8 @@ void prompt_user(struct flags flags);
 /* Function prototypes for built-in commands */
 void exit_cmd(char **command, char *line);
 void print_env(void);
-int checker(char **cmd, char *buf);
-int handle_builtin(char **command, char *line);
+int checker(char **cmd);
+int handle_builtin(char **command);
 void handle_signal(int m);
 
 /* Structures */

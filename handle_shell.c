@@ -18,15 +18,13 @@ void handle_signal(int m)
 /**
  * handle_builtin - Handles execution of built-in functions
  * @command: Tokenized commands
- * @line: Input read from stdin
- *
  * Description:
  * Checks if the entered command is a built-in command and
  * handles its execution if it is. It supports the env and exit commands.
  *
  * Return: 1 if executed, 0 if not
  */
-int handle_builtin(char **command, char *line)
+int handle_builtin(char **command)
 {
 	struct builtin builtin = {"env", "exit"};
 
@@ -37,8 +35,16 @@ int handle_builtin(char **command, char *line)
 	}
 	else if (_strcmp(*command, builtin.exit) == 0)
 	{
-		exit_cmd(command, line);
-		return (1);
+		if (command[1] != NULL)
+		{
+			int status = atoi(command[1]);
+
+			exit(status);
+		}
+		else
+		{
+			exit(0);
+		}
 	}
 	return (0);
 }
@@ -56,9 +62,9 @@ int handle_builtin(char **command, char *line)
  *
  * Return: 1 if the command is executed, 0 if not
  */
-int checker(char **cmd, char *buf)
+int checker(char **cmd)
 {
-	if (handle_builtin(cmd, buf))
+	if (handle_builtin(cmd))
 		return (1);
 	else if (**cmd == '/')
 	{
