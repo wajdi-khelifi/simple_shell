@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **env)
 
 	while (1)
 	{
-		printf("$ ");
+		printf("#cisfun$ ");
 		input = read_input();
 		if (input == NULL)
 		{

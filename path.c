@@ -60,3 +60,21 @@ char *get_env(char *env_var, char **env)
 	}
 	return (NULL);
 }
+
+/**
+* print_env - prints the environment string to stdout
+*
+* Return: 0
+*/
+void print_env(void)
+{
+	int x = 0;
+	char **env = env;
+
+	while (env[x])
+	{
+		write(STDOUT_FILENO, (const void *)env[x], strlen(env[x]));
+		write(STDOUT_FILENO, "\n", 1);
+		x++;
+	}
+}
