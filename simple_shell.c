@@ -91,15 +91,34 @@ void execute(char *cp, char **cmd)
 
 	child_pid = fork();
 	if (child_pid < 0)
+	{
 		perror(cp);
+	}
 	if (child_pid == 0)
 	{
+		int dev_null = open("/dev/null", O_WRONLY);
+
+		if (dev_null == -1)
+		{
+			perror(cp);
+			exit(98);
+		}
+		dup2(dev_null, STDOUT_FILENO);
+		dup2(dev_null, STDERR_FILENO);
+		close(dev_null);
+
 		execve(cp, cmd, env);
 		perror(cp);
 		exit(98);
 	}
-	else
-		wait(&status);
+		else
+		{
+			wait(&status);
+			if (WIFEXITED(status))
+			{
+				info.final_exit = WEXITSTATUS(status);
+			}
+		}
 }
 /**
  * tokenize - Creates tokens from the given input line
