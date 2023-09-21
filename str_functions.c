@@ -115,7 +115,7 @@ char *_strdup(const char *s)
  * Return:pointer to the first occurrence of 'c' in 's', or NULL if 'c' is
  * not found.
  */
-char *_strchr(const char *s, char c)
+const char *_strchr(const char *s, char c)
 {
 	while (*s)
 	{

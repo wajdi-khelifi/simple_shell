@@ -31,7 +31,7 @@ int _strcmp(const char *s1, const char *s2);
 int _strlen(const char *s);
 int _strncmp(const char *s1, const char *s2, int n);
 char *_strdup(const char *s);
-char *_strchr(const char *s, char c);
+const char *_strchr(const char *s, char c);
 
 /* Function prototypes for shell functionality */
 void execute(char *cp, char **cmd);
