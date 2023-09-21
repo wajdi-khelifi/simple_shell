@@ -4,7 +4,7 @@
  * add_path - Add the path of the executable to the command.
  * @a: The command or executable.
  * @exe: The buffer to store the full path.
- * @environ: The environment variables.
+ * @env: The array of environment variables.
  *
  * This function constructs the full path to the specified executable by
  * searching for it in the directories listed in the PATH environment variable.

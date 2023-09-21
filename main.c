@@ -1,23 +1,46 @@
 #include "simple_shell_lib.h"
 
 /**
- * main - Entry point of the simple shell program.
+ * main - Entry point of the simple shell program
+ * @argc: Number of command-line arguments (unused)
+ * @argv: Array of command-line argument strings (unused)
+ * @env: Array of environment variables
  *
- * @argc: The number of command-line arguments.
- * @argv: An array of strings containing the command-line arguments.
- * @env: An array of strings containing the environment variables.
- *
- * This function serves as the entry point for the simple shell program. It
- * calls the `run_shell` function to start the shell, and then returns 0 upon
- * successful execution.
- *
- * Return: Always returns 0 to indicate successful execution.
+ * Return: Always 0 (successful execution)
  */
 int main(int argc, char **argv, char **env)
 {
+	char *input;
+	char **args;
+	int nb = 1;
+
 	(void)argc;
 	(void)argv;
 
-	run_shell(env);
+	while (1)
+	{
+		printf("$ ");
+		input = read_input();
+		if (input == NULL)
+		{
+			printf("\n");
+			exit(EXIT_SUCCESS);
+		}
+		if (strcmp(input, "exit\n") == 0)
+		{
+			free(input);
+			exit(EXIT_SUCCESS);
+		}
+		args = parse_input(input);
+		if (args[0] != NULL)
+		{
+			execute_command(args, nb, env);
+		}
+		free(input);
+		input = NULL;
+		free(args);
+		nb++;
+	}
+
 	return (0);
 }
