@@ -27,11 +27,14 @@ int main(int argc, char **argv, char **env)
 			printf("\n");
 			exit(1);
 		}
-		if (strcmp(input, "exit\n") == 0)
+		if (feof(stdin))
 		{
+			printf("\n");
 			free(input);
-			exit(1);
+			exit(0);
 		}
+		input[strcspn(input, "\n")] = '\0';
+
 		args = parse_input(input);
 		if (args[0] != NULL)
 		{
