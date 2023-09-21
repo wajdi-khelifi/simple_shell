@@ -34,13 +34,11 @@ int main(int argc, char **argv, char **env)
 			exit(0);
 		}
 		input[strcspn(input, "\n")] = '\0';
-
 		if (strcmp(input, "exit") == 0)
 		{
 			free(input);
 			exit(0);
 		}
-
 		args = parse_input(input);
 		if (args[0] != NULL)
 		{
@@ -51,6 +49,5 @@ int main(int argc, char **argv, char **env)
 		free(args);
 		nb++;
 	}
-
 	return (0);
 }

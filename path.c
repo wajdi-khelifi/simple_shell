@@ -1,42 +1,45 @@
 #include "simple_shell_lib.h"
-
 /**
- * add_path - Add the path of the executable to the command.
- * @a: The command or executable.
- * @exe: The buffer to store the full path.
- * @env: The array of environment variables.
- *
- * This function constructs the full path to the specified executable by
- * searching for it in the directories listed in the PATH environment variable.
- */
-void add_path(char *a, char *exe, char **env)
+* add_path - adds path to command
+* @path: path of command
+* @cmd: user entered command
+*
+* Return: buffer containing command with path on success
+* NULL on failure
+*/
+char *add_path(char *path, char *cmd)
 {
-	char *path_var = get_env("PATH", env);
-	struct stat st;
-	char *token;
+	char *buf;
+	size_t i = 0, j = 0;
 
-	if (path_var == NULL)
+	if (cmd == 0)
+		cmd = "";
+
+	if (path == 0)
+		path = "";
+
+	buf = malloc(sizeof(char) * (strlen(path) + strlen(cmd) + 2));
+	if (!buf)
+		return (NULL);
+
+	while (path[i])
 	{
-		perror("PATH environment variable not found");
-		exit(1);
+		buf[i] = path[i];
+		i++;
 	}
-
-	token = strtok(path_var, ":");
-	while (token != NULL)
+	if (path[i - 1] != '/')
 	{
-		strcpy(exe, token);
-		strcat(exe, "/");
-		strcat(exe, a);
-
-		if (stat(exe, &st) == 0)
-		{
-			return;
-		}
-
-		token = strtok(NULL, ":");
+		buf[i] = '/';
+		i++;
 	}
+	while (cmd[j])
+	{
+		buf[i + j] = cmd[j];
+		j++;
+	}
+	buf[i + j] = '\0';
+	return (buf);
 
-	exe[0] = '\0';
 }
 /**
  * get_env - Get the value of an environment variable.

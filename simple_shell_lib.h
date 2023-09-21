@@ -22,8 +22,7 @@ void handle_special(char *str);
 void execute_command(char **args, int nb, char **env);
 void run_shell(char **env);
 int main(int argc, char **argv, char **env);
-void add_path(char *a, char *exe, char **env);
 char *get_env(char *env_var, char **env);
 void print_env(void);
-
+char *add_path(char *path, char *cmd);
 #endif /* SIMPLE_SHELL_LIB_H */
