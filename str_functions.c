@@ -15,12 +15,14 @@
  */
 int _strcmp(const char *s1, const char *s2)
 {
-	while (*s1 && (*s1 == *s2))
-	{
-		s1++;
-		s2++;
-	}
-	return (*(const unsigned char *)s1 - *(const unsigned char *)s2);
+	int i = 0, output;
+
+	while (*(s1 + i) == *(s2 + i) && *(s1 + i) != '\0')
+		i++;
+
+	output = (*(s1 + i) - *(s2 + i));
+
+	return (output);
 }
 
 /**
@@ -37,7 +39,7 @@ int _strlen(const char *s)
 {
 	int count = 0;
 
-	while (*s)
+	while (*s != '\0')
 	{
 		count++;
 		s++;
@@ -61,15 +63,12 @@ int _strlen(const char *s)
  */
 int _strncmp(const char *s1, const char *s2, int n)
 {
-	while (n > 0 && *s1 && *s2)
+	int i;
+
+	for (i = 0; s1[i] && s2[i] && i < n; i++)
 	{
-		if (*s1 != *s2)
-		{
-			return (*s1 - *s2);
-		}
-		s1++;
-		s2++;
-		n--;
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
 	}
 	return (0);
 }
