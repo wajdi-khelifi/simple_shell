@@ -120,8 +120,10 @@ char *_strchr(const char *s, char c)
 	while (*s)
 	{
 		if (*s == c)
-			return ((char *)s);
+			return (s);
 		s++;
 	}
+	if (!c)
+		return (s);
 	return (NULL);
 }
