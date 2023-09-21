@@ -42,6 +42,7 @@ void execute(char *cp, char **cmd);
 char **tokenize(char *line);
 void free_buffers(char **buf);
 void prompt_user(struct flags flags);
+void cleanup(char *line, char **command, char **paths, char *pathcommand);
 
 /* Function prototypes for built-in commands */
 void exit_cmd(char **command, char *line);
@@ -49,6 +50,7 @@ void print_env(void);
 int checker(char **cmd, char *buf);
 int handle_builtin(char **command, char *line);
 void handle_signal(int m);
+void initialize_flags(struct flags *flags);
 
 /* Allocate functions */
 void example_double_free(void);

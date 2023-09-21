@@ -23,12 +23,9 @@ int main(int argc, char **argv, char *envp[])
 	if (argc < 1)
 		return (-1);
 	signal(SIGINT, handle_signal);
-	flags.interactive = isatty(STDIN_FILENO);
+	initialize_flags(&flags);
 	while (1)
 	{
-		free_buffers(command);
-		free_buffers(paths);
-		free(pathcommand);
 		prompt_user(flags);
 		linesize = getline(&line, &bufsize, stdin);
 		if (linesize < 0)
@@ -36,6 +33,8 @@ int main(int argc, char **argv, char *envp[])
 		info.ln_count++;
 		if (line[linesize - 1] == '\n')
 			line[linesize - 1] = '\0';
+		if (line[0] == '#')
+			continue;
 		command = tokenize(line);
 		if (command == NULL || *command == NULL || **command == '\0')
 			continue;
@@ -51,9 +50,35 @@ int main(int argc, char **argv, char *envp[])
 	}
 	if (linesize < 0 && flags.interactive)
 		write(STDERR_FILENO, "\n", 1);
-	free(line);
+	cleanup(line, command, paths, pathcommand);
 	return (0);
 }
+
+/**
+ * initialize_flags - Initialize the flags structure.
+ * @flags: Pointer to the flags structure.
+ */
+void initialize_flags(struct flags *flags)
+{
+	flags->interactive = isatty(STDIN_FILENO);
+}
+
+/**
+ * cleanup - Free dynamically allocated memory.
+ * @line: Pointer to the input line.
+ * @command: Array of command tokens.
+ * @paths: Array of path tokens.
+ * @pathcommand: Pointer to the path command.
+ */
+
+void cleanup(char *line, char **command, char **paths, char *pathcommand)
+{
+	free_buffers(command);
+	free_buffers(paths);
+	free(pathcommand);
+	free(line);
+}
+
 /**
  * prompt_user - Prints a shell prompt for user input
  * @flags: The struct containing shell-related flags
@@ -102,68 +127,4 @@ void execute(char *cp, char **cmd)
 	}
 	else
 		wait(&status);
-}
-/**
- * tokenize - Creates tokens from the given input line
- * @line: The input line to be tokenized
- *
- * Description:
- * tokenizes a string based on delimiters and returns an array
- * of strings (tokens).
- *
- * Return: An array of strings (tokens) or NULL on failure.
- */
-char **tokenize(char *line)
-{
-	char *buf = NULL, *bufp = NULL, *token = NULL, *delim = " :\t\r\n";
-	char **tokens = NULL;
-	int tokensize = 1;
-	size_t index = 0, flag = 0;
-
-	buf = _strdup(line);
-	if (!buf)
-		return (NULL);
-	bufp = buf;
-
-	while (*bufp)
-	{
-		if (_strchr(delim, *bufp) != NULL && flag == 0)
-		{
-			tokensize++;
-			flag = 1;
-		}
-		else if (_strchr(delim, *bufp) == NULL && flag == 1)
-			flag = 0;
-		bufp++;
-	}
-	tokens = malloc(sizeof(char *) * (tokensize + 1));
-	token = strtok(buf, delim);
-	while (token)
-	{
-		tokens[index] = _strdup(token);
-		if (tokens[index] == NULL)
-		{
-			free(tokens);
-			return (NULL);
-		}
-		token = strtok(NULL, delim);
-		index++;
-	}
-	tokens[index] = '\0';
-	free(buf);
-	return (tokens);
-}
-
-/**
- * exit_cmd - handles the exit command
- * @command: tokenized command
- * @line: input read from stdin
- *
- * Return: no return
- */
-void exit_cmd(char **command, char *line)
-{
-	free(line);
-	free_buffers(command);
-	exit(0);
 }
