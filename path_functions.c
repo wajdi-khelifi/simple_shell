@@ -9,14 +9,19 @@
  */
 char *find_path(void)
 {
-	char **env = environ;
-	char *path = NULL;
+	int x;
+	char **env = environ, *path = NULL;
 
 	while (*env)
 	{
 		if (_strncmp(*env, "PATH=", 5) == 0)
 		{
-			path = *env + 5;
+			path = *env;
+			while (*path && x < 5)
+			{
+				path++;
+				x++;
+			}
 			return (path);
 		}
 		env++;
