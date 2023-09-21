@@ -20,8 +20,9 @@ int main(int argc, char **argv, char *envp[])
 	ssize_t linesize = 0;
 	char **command = NULL, **paths = NULL;
 	(void)argc, (void)argv, (void)envp;
+	if (argc < 1)
+		return (-1);
 	signal(SIGINT, handle_signal);
-
 	flags.interactive = isatty(STDIN_FILENO);
 	while (1)
 	{
@@ -43,7 +44,6 @@ int main(int argc, char **argv, char *envp[])
 		path = find_path();
 		paths = tokenize(path);
 		pathcommand = test_paths(paths, command[0]);
-
 		if (!pathcommand)
 			perror(argv[0]);
 		else

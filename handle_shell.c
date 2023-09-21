@@ -3,10 +3,10 @@
 /**
  * handle_signal - Handles interrupt signals and prompts for input
  * @m: The signal number (unused)
- *
  * Description:
  * Handles interrupt signals (e.g., Ctrl+C) and prints a newline
  * followed by a prompt to indicate that the shell is ready to accept input.
+ * The 'm' parameter is unused in this function.
  */
 void handle_signal(int m)
 {
