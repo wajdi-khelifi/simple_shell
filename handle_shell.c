@@ -11,7 +11,7 @@ void handle_signal(int m)
 {
 	(void)m; /* Unused parameter */
 	write(STDERR_FILENO, "\n", 1);
-	prompt_user();
+	prompt_user(flags);
 }
 
 /**

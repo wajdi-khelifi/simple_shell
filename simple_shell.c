@@ -1,8 +1,5 @@
 #include "simple_shell.h"
 
-struct info info;
-struct flags flags;
-
 /**
  * main - Entry point for the simple shell program
  * @argc: Number of command-line arguments
@@ -20,20 +17,18 @@ int main(int argc, char **argv, char *envp[])
 	size_t bufsize = 0;
 	ssize_t linesize = 0;
 	char **command = NULL, **paths = NULL;
-
+	struct flags flags;
 	(void)argc, (void)argv, (void)envp;
 	signal(SIGINT, handle_signal);
+
+	flags.interactive = isatty(STDIN_FILENO);
 	while (1)
 	{
-		printf("#cisfun$ ");
-		fflush(stdout);
-
 		free_buffers(command);
 		free_buffers(paths);
 		free(pathcommand);
-		prompt_user();
+		prompt_user(flags);
 		linesize = getline(&line, &bufsize, stdin);
-
 		if (linesize < 0)
 			break;
 		info.ln_count++;
@@ -61,7 +56,7 @@ int main(int argc, char **argv, char *envp[])
 
 /**
  * prompt_user - Prints a shell prompt for user input
- *
+ * @flags: The struct containing shell-related flags
  * Description:
  * prints a shell prompt, typically '$', to indicate that the
  * shell is ready to accept user input.checks if the shell is in interactive
@@ -69,10 +64,12 @@ int main(int argc, char **argv, char *envp[])
  *
  * Return: No return value.
  */
-void prompt_user(void)
+void prompt_user(struct flags flags)
 {
 	if (flags.interactive)
-		write(STDERR_FILENO, "$ ", 2);
+	{
+		write(STDERR_FILENO, "#cisfun$ ", 9);
+	}
 }
 
 /**
