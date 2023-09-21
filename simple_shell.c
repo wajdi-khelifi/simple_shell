@@ -69,7 +69,8 @@ void prompt_user(struct flags flags)
 {
 	if (flags.interactive)
 	{
-		write(STDOUT_FILENO, "$ ", 2);
+		fprintf(stdout, "#cisfun$ ");
+		fflush(stdout);
 	}
 }
 
