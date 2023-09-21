@@ -107,6 +107,8 @@ char *read_input()
 
 	getline(&input, &bufsize, stdin);
 	return (input);
+	input = NULL;
+	free(input);
 }
 
 /**
@@ -149,4 +151,5 @@ char **parse_input(char *input)
 	}
 	tokens[position] = NULL;
 	return (tokens);
+	free(tokens);
 }
