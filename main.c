@@ -35,6 +35,12 @@ int main(int argc, char **argv, char **env)
 		}
 		input[strcspn(input, "\n")] = '\0';
 
+		if (strcmp(input, "exit\n") == 0)
+		{
+			free(input);
+			exit(1);
+		}
+
 		args = parse_input(input);
 		if (args[0] != NULL)
 		{
