@@ -149,7 +149,7 @@ char **tokenize(char *line)
 		token = strtok(NULL, delim);
 		index++;
 	}
-	tokens[index] = NULL;
+	tokens[index] = '\0';
 	free(buf);
 	return (tokens);
 }
