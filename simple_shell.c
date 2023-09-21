@@ -69,7 +69,7 @@ void prompt_user(struct flags flags)
 {
 	if (flags.interactive)
 	{
-		write(STDERR_FILENO, "$ ", 2);
+		write(STDOUT_FILENO, "$ ", 2);
 	}
 }
 
