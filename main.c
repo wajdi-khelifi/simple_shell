@@ -16,6 +16,7 @@ int main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	input = NULL;
 
 	while (1)
 	{
