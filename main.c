@@ -25,12 +25,12 @@ int main(int argc, char **argv, char **env)
 		if (input == NULL)
 		{
 			printf("\n");
-			exit(EXIT_SUCCESS);
+			exit(1);
 		}
 		if (strcmp(input, "exit\n") == 0)
 		{
 			free(input);
-			exit(EXIT_SUCCESS);
+			exit(1);
 		}
 		args = parse_input(input);
 		if (args[0] != NULL)

@@ -38,13 +38,13 @@ void execute_command(char **args, int nb, char **env)
 					execv(exe, args);
 					fprintf(stderr, "hsh: %d: %s: execution failed\n", nb, args[0]);
 					perror("Error");
-					exit(EXIT_FAILURE);
+					exit(1);
 				}
 				token = strtok(NULL, ":");
 			}
 		}
 		fprintf(stderr, "hsh: %d: %s: not found\n", nb, args[0]);
-		exit(EXIT_FAILURE);
+		exit(1);
 	} else if (pid < 0)
 	{
 		perror("Error");
@@ -73,7 +73,7 @@ void handle_special(char *str)
 	if (escaped == NULL)
 	{
 		fprintf(stderr, "Memory allocation error\n");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 
 	for (i = 0; i < len; i++)
@@ -125,7 +125,7 @@ char **parse_input(char *input)
 	if (!tokens)
 	{
 		fprintf(stderr, "Allocation error\n");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 
 	token = strtok(input, " \t\n");
@@ -141,7 +141,7 @@ char **parse_input(char *input)
 			if (!tokens)
 			{
 				fprintf(stderr, "Allocation error\n");
-				exit(EXIT_FAILURE);
+				exit(1);
 			}
 		}
 
