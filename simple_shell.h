@@ -50,6 +50,12 @@ int checker(char **cmd, char *buf);
 int handle_builtin(char **command, char *line);
 void handle_signal(int m);
 
+/* Allocate functions */
+void example_double_free(void);
+void example_use_after_free(void);
+void example_memory_leak(void);
+
+
 /* Structures */
 
 /**
