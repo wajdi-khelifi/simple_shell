@@ -14,13 +14,10 @@ void free_buffers(char **buf)
 
 	if (!buf || buf == NULL)
 		return;
-	if (*buf == (char *) -1)
-		return;
 	while (buf[i])
 	{
 		free(buf[i]);
 		i++;
 	}
-	*buf = (char *) -1;
 	free(buf);
 }
