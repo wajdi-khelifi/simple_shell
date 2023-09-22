@@ -92,7 +92,7 @@ void prompt_user(struct flags flags)
 {
 	if (flags.interactive)
 	{
-		write(STDERR_FILENO, "#cisfun$ ", 9);
+		write(STDERR_FILENO, "$ ", 2);
 	}
 }
 
