@@ -19,7 +19,6 @@ int main(int argc, char **argv, char *envp[])
 	size_t bufsize = 0, x = 1;
 	ssize_t linesize = 0;
 	char **command = NULL, **paths = NULL;
-	bool input_from_terminal = isatty(STDIN_FILENO);
 	(void)argc, (void)argv, (void)envp;
 	if (argc < 1)
 		return (-1);
@@ -27,8 +26,7 @@ int main(int argc, char **argv, char *envp[])
 	initialize_flags(&flags);
 	while (1)
 	{
-		if (input_from_terminal)
-			prompt_user(flags);
+		prompt_user(flags);
 		linesize = getline(&line, &bufsize, stdin);
 		if (linesize < 0)
 			break;
