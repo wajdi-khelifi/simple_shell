@@ -16,7 +16,7 @@ int main(int argc, char **argv, char *envp[])
 	struct flags flags;
 	struct info info;
 	char *line = NULL, *pathcommand = NULL, *path = NULL;
-	size_t bufsize = 0;
+	size_t bufsize = 0, x = 1;
 	ssize_t linesize = 0;
 	char **command = NULL, **paths = NULL;
 	(void)argc, (void)argv, (void)envp;
@@ -44,9 +44,10 @@ int main(int argc, char **argv, char *envp[])
 		paths = tokenize(path);
 		pathcommand = test_paths(paths, command[0]);
 		if (!pathcommand)
-			perror(argv[0]);
+			fprintf(stderr, "hsh: %ld: %s: command not found\n", x, command[0]);
 		else
 			execute(pathcommand, command);
+		x++;
 	}
 	if (linesize < 0 && flags.interactive)
 		write(STDERR_FILENO, "\n", 1);
@@ -115,11 +116,13 @@ void execute(char *cp, char **cmd)
 
 	child_pid = fork();
 	if (child_pid < 0)
+	{
 		perror(cp);
+	}
 	if (child_pid == 0)
 	{
 		execve(cp, cmd, env);
-		perror(cp);
+		fprintf(stderr, "hsh: %s: command not found\n", cmd[0]);
 		free(cp);
 		free_buffers(cmd);
 		exit(98);
