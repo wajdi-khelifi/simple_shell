@@ -27,7 +27,7 @@ extern struct flags flags;
 
 /* Function prototypes for path functions */
 char *find_path(void);
-char *append_path(char *path, char *command);
+char *append_path(char *path, const char *command);
 char *test_paths(char **path, const char *command);
 
 /* Function prototypes for string functions */
@@ -38,7 +38,7 @@ char *_strdup(const char *s);
 const char *_strchr(const char *s, char c);
 
 /* Function prototypes for shell functionality */
-void execute(char *cp, char **cmd);
+void execute(char *pathcommand, char **cmd);
 char **tokenize(char *line);
 void free_buffers(char **buf);
 void prompt_user(struct flags flags);
@@ -51,6 +51,7 @@ int checker(char **cmd, char *buf);
 int handle_builtin(char **command, char *line);
 void handle_signal(int m);
 void initialize_flags(struct flags *flags);
+void exit_builtin(void);
 
 /* Allocate functions */
 void example_double_free(void);

@@ -60,10 +60,24 @@ int checker(char **cmd, char *buf)
 {
 	if (handle_builtin(cmd, buf))
 		return (1);
-	else if (**cmd == '/')
+	else if (cmd[0][0] == '/')
 	{
 		execute(cmd[0], cmd);
 		return (1);
 	}
 	return (0);
+}
+
+
+/**
+ * exit_builtin - Handles the exit built-in command
+ *
+ * Description:
+ * Exits the shell without considering any arguments.
+ *
+ * Return: It doesn't return; it exits the shell.
+ */
+void exit_builtin(void)
+{
+	exit(0);
 }

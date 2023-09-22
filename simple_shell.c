@@ -99,7 +99,7 @@ void prompt_user(struct flags flags)
 
 /**
  * execute - Executes a command entered by users
- * @cp: The path to the command
+ * @pathcommand: The path to the command
  * @cmd: Array of strings containing the command and its arguments
  *
  * Description:
@@ -108,35 +108,26 @@ void prompt_user(struct flags flags)
  *
  * Return: No return value.
  */
-void execute(char *cp, char **cmd)
+void execute(char *pathcommand, char **cmd)
 {
 	pid_t child_pid;
 	int status;
-	char **env = environ;
-
-	if (access(cp, X_OK) == -1)
-	{
-		fprintf(stderr, "hsh: %s: command not found\n", cmd[0]);
-		free(cp);
-		free_buffers(cmd);
-		return;
-	}
 
 	child_pid = fork();
 	if (child_pid < 0)
 	{
-		perror(cp);
+		perror("fork");
+		return;
 	}
 	if (child_pid == 0)
 	{
-		execve(cp, cmd, env);
-		perror(cp);
-		free(cp);
-		free_buffers(cmd);
-		exit(EXIT_FAILURE);
+		execve(pathcommand, cmd, environ);
+		perror(pathcommand);
+		exit(1);
 	}
 	else
 	{
-		wait(&status);
+		waitpid(child_pid, &status, 0);
 	}
+
 }
