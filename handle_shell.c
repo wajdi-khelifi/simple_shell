@@ -37,7 +37,15 @@ int handle_builtin(char **command, char *line)
 	}
 	else if (_strcmp(*command, builtin.exit) == 0)
 	{
-		exit_cmd(command, line);
+		if (command[1] == NULL)
+		{
+			exit_builtin();
+		}
+		else
+		{
+			fprintf(stderr, "hsh: %d: %s: command not found in input: %s\n",
+					info.ln_count, command[0], line);
+		}
 		return (1);
 	}
 	return (0);
