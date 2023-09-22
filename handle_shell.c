@@ -54,7 +54,6 @@ int handle_builtin(char **command, char *line)
 /**
  * checker - Checks if a command is a built-in or external command
  * @cmd: Tokenized user input
- * @buf: Line derived from getline function
  * Description:
  * checks if the command is a built-in command or an external
  * command. If it's a built-in command, it handles execution;
@@ -63,16 +62,42 @@ int handle_builtin(char **command, char *line)
  *
  * Return: 1 if the command is executed, 0 if not
  */
-int checker(char **cmd, char *buf)
+int checker(char **cmd)
 {
-	if (handle_builtin(cmd, buf))
-		return (1);
-	else if (**cmd == '/')
+	if (cmd[0] == NULL)
+		return (0);
+	if (strcmp(cmd[0], "exit") == 0)
 	{
-		execute(cmd[0], cmd);
-		return (1);
+		free_buffers(cmd);
+		exit(0);
 	}
-	return (0);
+	else
+	{
+		pid_t child_pid = fork();
+
+		if (child_pid == -1)
+		{
+			perror("fork");
+			exit(1);
+		}
+		else if (child_pid == 0)
+		{
+			execvp(cmd[0], cmd);
+			perror("execvp");
+			exit(1);
+		}
+		else
+		{
+			int status;
+
+			waitpid(child_pid, &status, 0);
+			if (WIFEXITED(status))
+				return (1);
+			else
+				return (0);
+		}
+	}
+	return (1);
 }
 
 

@@ -38,7 +38,7 @@ int main(int argc, char **argv, char *envp[])
 		command = tokenize(line);
 		if (command == NULL || *command == NULL || **command == '\0')
 			continue;
-		if (checker(command, line))
+		if (checker(command))
 			continue;
 		path = find_path();
 		paths = tokenize(path);
