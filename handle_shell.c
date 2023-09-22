@@ -54,19 +54,45 @@ int handle_builtin(char **command, char *line)
 /**
  *checker- checks to see weather its a built in function
  *@cmd: tokenized user input
- *@buf: line drived fromgetline function
+ *
  *Return: 1 if cmd excuted 0 if cmd is not executed
  */
-int checker(char **cmd, char *buf)
+int checker(char **cmd)
 {
-	if (handle_builtin(cmd, buf))
-		return (1);
-	else if (**cmd == '/')
+	if (cmd[0] == NULL)
+		return (0);
+	if (strcmp(cmd[0], "exit") == 0)
 	{
-		execute(cmd[0], cmd);
-		return (1);
+		free_buffers(cmd);
+		exit(0);
 	}
-	return (0);
+	else
+	{
+		pid_t child_pid = fork();
+
+		if (child_pid == -1)
+		{
+			perror("fork");
+			exit(1);
+		}
+		else if (child_pid == 0)
+		{
+			execvp(cmd[0], cmd);
+			perror("execvp");
+			exit(1);
+		}
+		else
+		{
+			int status;
+
+			waitpid(child_pid, &status, 0);
+			if (WIFEXITED(status))
+				return (1);
+			else
+				return (0);
+		}
+	}
+	return (1);
 }
 
 /**
