@@ -114,37 +114,29 @@ void execute(char *cp, char **cmd)
 	int status;
 	char **env = environ;
 
-	if (strcmp(cmd[0], "cd") == 0)
+	if (access(cp, X_OK) == -1)
 	{
-		if (cmd[1] != NULL)
-		{
-			if (chdir(cmd[1]) != 0)
-				perror("cd");
-		}
-		else
-		{
-			const char *home_dir = getenv("HOME");
-
-			if (home_dir != NULL)
-			{
-				if (chdir(home_dir) != 0)
-					perror("cd");
-			}
-		}
+		fprintf(stderr, "hsh: %s: command not found\n", cmd[0]);
+		free(cp);
+		free_buffers(cmd);
 		return;
 	}
 
 	child_pid = fork();
 	if (child_pid < 0)
+	{
 		perror(cp);
+	}
 	if (child_pid == 0)
 	{
 		execve(cp, cmd, env);
 		perror(cp);
 		free(cp);
 		free_buffers(cmd);
-		exit(98);
+		exit(EXIT_FAILURE);
 	}
 	else
+	{
 		wait(&status);
+	}
 }
