@@ -26,7 +26,7 @@ int main(int argc, char **argv, char *envp[])
 	initialize_flags(&flags);
 	while (1)
 	{
-		prompt_user(flags);
+		prompt_user();
 		linesize = getline(&line, &bufsize, stdin);
 		if (linesize < 0)
 			break;
@@ -80,21 +80,17 @@ void cleanup(char *line, char **command, char **paths, char *pathcommand)
 }
 
 /**
- * prompt_user - Prints a shell prompt for user input
- * @flags: The struct containing shell-related flags
- * Description:
- * prints a shell prompt, typically '$', to indicate that the
- * shell is ready to accept user input.checks if the shell is in interactive
- * mode before printing the prompt.
- *
- * Return: No return value.
- */
-void prompt_user(struct flags flags)
+* prompt_user - prints $ to let user know the program is
+* ready to take their input
+* prints the prompt if the shell is in interactive mode
+* Return: no return
+*/
+void prompt_user(void)
 {
+	if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
+		flags.interactive = 1;
 	if (flags.interactive)
-	{
 		write(STDERR_FILENO, "$ ", 2);
-	}
 }
 
 /**

@@ -41,7 +41,7 @@ const char *_strchr(const char *s, char c);
 void execute(char *pathcommand, char **cmd);
 char **tokenize(char *line);
 void free_buffers(char **buf);
-void prompt_user(struct flags flags);
+void prompt_user(void);
 void cleanup(char *line, char **command, char **paths, char *pathcommand);
 
 /* Function prototypes for built-in commands */
