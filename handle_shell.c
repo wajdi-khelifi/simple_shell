@@ -67,7 +67,7 @@ int checker(char **cmd, char *buf)
 {
 	if (handle_builtin(cmd, buf))
 		return (1);
-	else if (cmd[0][0] == '/')
+	else if (**cmd == '/')
 	{
 		execute(cmd[0], cmd);
 		return (1);
