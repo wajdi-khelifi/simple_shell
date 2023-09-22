@@ -53,7 +53,6 @@ int main(int argc, char **argv, char *envp[])
 	cleanup(line, command, paths, pathcommand);
 	return (0);
 }
-
 /**
  * initialize_flags - Initialize the flags structure.
  * @flags: Pointer to the flags structure.
