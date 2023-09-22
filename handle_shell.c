@@ -37,8 +37,16 @@ int handle_builtin(char **command, char *line)
 	}
 	else if (_strcmp(*command, builtin.exit) == 0)
 	{
-		exit_cmd(command, line);
-		return (1);
+		if (command[1] != NULL)
+		{
+			fprintf(stderr, "hsh: exit: too many arguments\n");
+			return (1);
+		}
+		else
+		{
+			exit_cmd(command, line);
+			return (1);
+		}
 	}
 	return (0);
 }
