@@ -55,7 +55,6 @@ int handle_builtin(char **command, char *line)
  * checker - Checks if a command is a built-in or external command
  * @cmd: Tokenized user input
  * @buf: Line derived from getline function
- *
  * Description:
  * checks if the command is a built-in command or an external
  * command. If it's a built-in command, it handles execution;
